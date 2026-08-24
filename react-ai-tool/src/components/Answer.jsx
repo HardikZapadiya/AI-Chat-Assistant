@@ -9,7 +9,7 @@ function Answer({ question, answer }) {
         {/* Question */}
         <div className="flex items-start gap-3">
           <div className="shrink-0">
-            <div className="size-9 rounded-full bg-zinc-700 flex items-center justify-center">
+            <div className="mx-auto mb-5 size-9 rounded-full bg-gradient-to-br from-red-600 to-black flex items-center justify-center shadow-lg shadow-red-600/20">
               <User size={18} className="text-zinc-300" />
             </div>
           </div>
@@ -24,8 +24,8 @@ function Answer({ question, answer }) {
         {/* Answer: */}
         <div className="flex items-start gap-3">
           <div className="shrink-0">
-            <div className="size-9 rounded-full bg-zinc-700 flex items-center justify-center">
-              <Bot size={18} className="text-zinc-200" />
+            <div className="mx-auto mb-5 size-9 rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-900/40">
+              <Bot size={18} className="text-zinc-200 " />
             </div>
           </div>
           <div className="flex-1 min-w-0">

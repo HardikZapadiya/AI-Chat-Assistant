@@ -2,6 +2,7 @@ import { useState } from "react";
 import { URL, API_KEY } from "../constants";
 import PromptBar from "./PromptBar";
 import Answer from "./Answer";
+import Welcome from "./Welcome";
 
 const RightSidebar = () => {
   const [askedQuestion, setAskedQuestion] = useState("");
@@ -41,11 +42,11 @@ const RightSidebar = () => {
       model: "openai/gpt-oss-20b",
       messages: [{ role: "user", content: currentQuestion }],
     };
- 
-    //local Storage of Question-History 
+
+    //local Storage of Question-History
     if (localStorage.getItem("history")) {
-      let history = JSON.parse(localStorage.getItem("history"))
-      history=[askedQuestion,...history]
+      let history = JSON.parse(localStorage.getItem("history"));
+      history = [askedQuestion, ...history];
       localStorage.setItem("history", JSON.stringify(history));
     } else {
       localStorage.setItem("history", JSON.stringify([askedQuestion]));
@@ -86,12 +87,16 @@ const RightSidebar = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
-      <div className="col-span-4 flex flex-col h-screen p-6">
-        <div className="flex-1 overflow-y-auto mb-4 px-4 text-white">
-          {error && <div className="text-red-400 mb-2">{error}</div>}
+      <div className="col-span-4 flex flex-col h-screen p-6 bg-zinc-950">
+        <div className="flex-1 overflow-y-auto mb-4 px-4 text-white scroll-smooth">
+          {error && (
+            <div className="mb-3 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+              {error}
+            </div>
+          )}
+
           {answer.length > 0
             ? answer.map((item) => (
                 <Answer
@@ -101,9 +106,12 @@ const RightSidebar = () => {
                 />
               ))
             : !error && (
-                <p className="text-zinc-500">Your answer will appear here.</p>
+                <div className="h-full flex items-center justify-center">
+                  <Welcome />
+                </div>
               )}
         </div>
+
         <PromptBar
           askedQuestion={askedQuestion}
           handleAskedQuestion={handleAskedQuestion}

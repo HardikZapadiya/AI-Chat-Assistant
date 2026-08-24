@@ -9,7 +9,7 @@ const PromptBar = ({
 }) => {
   return (
     <>
-      <div className="bg-zinc-800 p-2 w-1/2 mx-auto rounded-4xl border border-zinc-400 flex items-center">
+      <div className="bg-zinc-800 p-2 w-1/2 h-14 mx-auto rounded-4xl border border-zinc-400 flex items-center">
         <input
           type="text"
           value={askedQuestion}
