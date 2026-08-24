@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { URL, API_KEY } from "../constants";
 import PromptBar from "./PromptBar";
-// import ChatContent from "./ChatContent";
 import Answer from "./Answer";
 
 const RightSidebar = () => {
   const [askedContent, setAskedContent] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -41,13 +40,29 @@ const RightSidebar = () => {
         },
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
-      let ans = data?.choices?.[0]?.message?.content;
 
-      console.log(ans);
-      setAnswer(ans || "No response received.");
-    } catch (err) {
-      setError("Failed to reach the server");
+      const data = await res.json();
+      if (!res.ok) {
+        console.error("Groq AI API Error : ", data.error.message);
+      }
+
+      const result = data?.choices?.[0]?.message?.content;
+
+      if (!result) {
+        throw new Error(data.error.message);
+      }
+
+      console.log("AI Response : ", result);
+
+      setAnswer((prev) => [
+        ...prev,
+        { question: askedContent, answer: result },
+      ]);
+      setAskedContent("");
+
+      // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      setError(`Failed to reach the server :: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -56,17 +71,19 @@ const RightSidebar = () => {
   return (
     <>
       <div className="col-span-4 flex flex-col h-screen p-6">
-        <div className="flex-1 overflow-y-auto mb-4 px-4">
+        <div className="flex-1 overflow-y-auto mb-4 px-4 text-white">
           {error && <div className="text-red-400 mb-2">{error}</div>}
-          {answer ? (
-            <div className="text-white">
-              <Answer ans={answer} />
-            </div>
-          ) : (
-            !error && (
-              <p className="text-zinc-500">Your answer will appear here.</p>
-            )
-          )}
+          {answer.length > 0
+            ? answer.map((item, index) => (
+                <Answer
+                  key={index}
+                  question={item.question}
+                  answer={item.answer}
+                />
+              ))
+            : !error && (
+                <p className="text-zinc-500">Your answer will appear here.</p>
+              )}
         </div>
         <PromptBar
           askedContent={askedContent}
