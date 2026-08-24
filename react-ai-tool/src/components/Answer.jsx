@@ -9,7 +9,7 @@ function Answer({ question, answer }) {
         {/* Question */}
         <div className="flex items-start gap-3">
           <div className="shrink-0">
-            <div className="mx-auto mb-5 size-9 rounded-full bg-gradient-to-br from-red-600 to-black flex items-center justify-center shadow-lg shadow-red-600/20">
+            <div className="mx-auto mb-5 size-9 rounded-full bg-gradient-to-br from-red-600 to-black flex items-center justify-center shadow-lg shadow-red-600/15">
               <User size={18} className="text-zinc-300" />
             </div>
           </div>

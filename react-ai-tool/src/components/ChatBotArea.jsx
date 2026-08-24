@@ -4,7 +4,7 @@ import PromptBar from "./PromptBar";
 import Answer from "./Answer";
 import Welcome from "./Welcome";
 
-const RightSidebar = () => {
+const ChatBotArea = () => {
   const [askedQuestion, setAskedQuestion] = useState("");
   const [answer, setAnswer] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -124,4 +124,4 @@ const RightSidebar = () => {
   );
 };
 
-export default RightSidebar;
+export default ChatBotArea;
