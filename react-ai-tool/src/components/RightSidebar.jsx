@@ -4,13 +4,14 @@ import PromptBar from "./PromptBar";
 import Answer from "./Answer";
 
 const RightSidebar = () => {
-  const [askedContent, setAskedContent] = useState("");
+  const [askedQuestion, setAskedQuestion] = useState("");
   const [answer, setAnswer] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // const [recentHistory, setRecentHistory] = useState([]);
 
-  const handleAskedContent = (event) => {
-    setAskedContent(event.target.value);
+  const handleAskedQuestion = (event) => {
+    setAskedQuestion(event.target.value);
   };
 
   const handleKeyDown = (event) => {
@@ -20,9 +21,9 @@ const RightSidebar = () => {
   };
 
   const submitHandler = async () => {
-    if (!askedContent.trim() || loading) return;
+    if (!askedQuestion.trim() || loading) return;
 
-    const currentQuestion = askedContent;
+    const currentQuestion = askedQuestion;
     const messageId = Date.now();
 
     setLoading(true);
@@ -33,13 +34,22 @@ const RightSidebar = () => {
       ...prev,
       { id: messageId, question: currentQuestion, answer: "" },
     ]);
-    setAskedContent("");
+    setAskedQuestion("");
 
     // for groq :
     const payload = {
       model: "openai/gpt-oss-20b",
       messages: [{ role: "user", content: currentQuestion }],
     };
+ 
+    //local Storage of Question-History 
+    if (localStorage.getItem("history")) {
+      let history = JSON.parse(localStorage.getItem("history"))
+      history=[askedQuestion,...history]
+      localStorage.setItem("history", JSON.stringify(history));
+    } else {
+      localStorage.setItem("history", JSON.stringify([askedQuestion]));
+    }
 
     try {
       const res = await fetch(URL, {
@@ -95,8 +105,8 @@ const RightSidebar = () => {
               )}
         </div>
         <PromptBar
-          askedContent={askedContent}
-          handleAskedContent={handleAskedContent}
+          askedQuestion={askedQuestion}
+          handleAskedQuestion={handleAskedQuestion}
           handleKeyDown={handleKeyDown}
           submitHandler={submitHandler}
           loading={loading}

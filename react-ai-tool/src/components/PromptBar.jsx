@@ -1,8 +1,8 @@
 import LoaderBtn from "./LoaderBtn";
 
 const PromptBar = ({
-  askedContent,
-  handleAskedContent,
+  askedQuestion,
+  handleAskedQuestion,
   handleKeyDown,
   submitHandler,
   loading,
@@ -12,14 +12,14 @@ const PromptBar = ({
       <div className="bg-zinc-800 p-2 w-1/2 mx-auto rounded-4xl border border-zinc-400 flex items-center">
         <input
           type="text"
-          value={askedContent}
+          value={askedQuestion}
           placeholder="Ask me anything"
           className="w-full bg-transparent p-3 outline-none"
-          onChange={handleAskedContent}
+          onChange={handleAskedQuestion}
           onKeyDown={handleKeyDown}
         ></input>
         <LoaderBtn
-          askedContent={askedContent}
+          askedQuestion={askedQuestion}
           submitHandler={submitHandler}
           loading={loading}
         />
